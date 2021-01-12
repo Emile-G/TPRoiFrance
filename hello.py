@@ -7,25 +7,25 @@ import pandas
 import yaml
 import re
 
-def hello(name="World"):
+def hello(dossierCible="France"):
     #On selectionne notre CSV de region/departement
     csv = pathlib.Path("departements-france.csv")
     jsonImm = pathlib.Path("liste-des-immeubles-proteges-au-titre-des-monuments-historiques.json")
     #On attribut la variable "dossierCible" au dossier renseigner dans la commande 
-    dossierCible = pathlib.Path(name)
+    dossierCible = pathlib.Path(dossierCible)
     
     #Si le dossier cible existe :
     if dossierCible.exists():
         #On demande si l'utilisateur veux le vider
-        print ("Le dossier" , name , "existe déjà, voulez vous le vider ?")
+        print ("Le dossier" , dossierCible , "existe déjà, voulez vous le vider ?")
         val = input("Oui / Non : ")
         
         #Si oui :
         if val == "Oui":
             #On le supprime lui, et toute l'arboresense en dessosus
-            shutil.rmtree(name)
+            shutil.rmtree(dossierCible)
             # et on le recréer
-            os.mkdir(name)
+            os.mkdir(dossierCible)
         
         #Sinon
         else:
@@ -35,13 +35,13 @@ def hello(name="World"):
     #Si le dossier cible n'existe pas :'pen
     else:
         #On le créer
-        os.mkdir(name)
+        os.mkdir(dossierCible)
         
     dataCSVRegion = pandas.read_csv(csv, usecols= ['nom_region'])
     dataCSVRegion = dataCSVRegion.drop_duplicates()
     dataCSVDep = pandas.read_csv(csv, usecols= ['nom_departement','nom_region'])
     dataJSONImm = pandas.read_json(jsonImm)
-    os.chdir(name)
+    os.chdir(dossierCible)
     
     for data in dataCSVRegion.nom_region:
         os.mkdir(data)
@@ -91,7 +91,7 @@ def hello(name="World"):
             os.chdir(path_parent)
 
 
-    return "Hello %s!" % name
+    return "Le dossier cible est le dossier: %s" % dossierCible
 
 if __name__ == '__main__':
     fire.Fire(hello)
