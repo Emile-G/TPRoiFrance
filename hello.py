@@ -69,8 +69,6 @@ def hello(name="World"):
                 coordPart1 = data["coordonnees_ban"][0]
                 coordPart2 = data["coordonnees_ban"][1]
             else:
-                print(data["reg"])
-                print(data["dpt_lettre"])
                 coordPart1 = "Non"
                 coordPart2 = "définis"
 
@@ -86,10 +84,6 @@ def hello(name="World"):
 
             with open(data["tico"]+'.yml', 'w') as outfile:
                 yaml.dump(dataYaml, outfile, default_flow_style=False, sort_keys=False, allow_unicode=True)
-
-            currentDir = os.getcwd()
-            currentDir = currentDir + "/" + data["tico"]+'.yml'
-            #print(currentDir)
 
             path_parent = os.path.dirname(os.getcwd())
             os.chdir(path_parent)
